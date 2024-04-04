@@ -23,13 +23,14 @@ import {
 
 import { UsersService } from './users.service';
 import { type CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { type UpdateUserDto } from './dto/update-user.dto';
 
 import { CreateUserResponseDto } from './dto/create-user-response.dto';
 import { FindAllUserResponseDto } from './dto/find-all-user-response.dto';
 import { FindOneUserResponseDto } from './dto/find-one-user-response.dto';
 import { UpdateUserResponseDto } from './dto/update-user-response.dto';
 import { CreateUserControllerDto } from './dto/create-user-controller.dto';
+import { UpdateUserControllerDto } from './dto/update-user-controller.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -37,16 +38,15 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @ApiBody({ type: CreateUserControllerDto })
   @ApiCreatedResponse({
     description: 'User created successfully.',
     type: CreateUserResponseDto,
   })
   @ApiBadRequestResponse({ description: 'Bad Request Response API.' })
-  @ApiBody({ type: CreateUserControllerDto })
   async create(
     @Body() createUserControllerDto: CreateUserControllerDto,
   ): Promise<CreateUserResponseDto> {
-    console.log(createUserControllerDto.user);
     const createUserDto: CreateUserDto = createUserControllerDto.user;
     return await this.usersService.create(createUserDto);
   }
@@ -91,6 +91,7 @@ export class UsersController {
     name: 'id',
     required: true,
   })
+  @ApiBody({ type: UpdateUserControllerDto })
   @ApiOkResponse({
     description: 'User updated successfully.',
     type: UpdateUserResponseDto,
@@ -98,8 +99,9 @@ export class UsersController {
   @ApiNotFoundResponse({ description: 'User not found.' })
   async update(
     @Param('id') id: number,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body() updateUserControllerDto: UpdateUserControllerDto,
   ): Promise<UpdateUserResponseDto> {
+    const updateUserDto: UpdateUserDto = updateUserControllerDto.user;
     return await this.usersService.update(id, updateUserDto);
   }
 
