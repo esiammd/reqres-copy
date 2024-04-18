@@ -36,7 +36,9 @@ Este proyecto ha sido desarollado con las siguientes tecnologías:
 
 4. Inicializar docker y ejecutar el comando: `docker compose up -d`
 
-5. Ejecutar la versión de desarrollo del proyecto: `yarn start:dev`
+5. Llenar la base de datos con datos iniciales (opcional): `yarn seed:run`
+
+6. Ejecutar la versión de desarrollo del proyecto: `yarn start:dev`
 
 
 ## 🤔 Cómo testear
